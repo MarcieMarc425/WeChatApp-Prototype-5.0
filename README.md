@@ -30,16 +30,29 @@
    The database used is MongoDB. 
 
    In order to start client, type in terminal:
+   
    `service mongod start`
+   
    `ps -ef|grep mongo`
 
 * __Server JS__
 
    The server.js acts as the remote server for the mini game.
+   
+   Remember to init npm and download necessary packages:
+   
+   `cd server`    
+   
+   `npm init` Use 'tnpm' if in office
+   
+   `npm install` Either first edit 'package.json' before install or just install each package
 
    Remember to save server.js to the remote server everytime the file is edited. Command:
+   
    `sftp root@ip:port`
+   
    `cd server`
+   
    `put C://fileLocation`
 
 * __WeChat IDE__
