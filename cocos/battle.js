@@ -7,6 +7,10 @@ cc.Class({
             default: null,
             type: cc.Sprite
         },
+        player2Pos: {
+            default: null,
+            type: cc.Sprite
+        },
         up_left: {
             default: null,
             type: cc.Button
@@ -22,8 +26,14 @@ cc.Class({
         down_right: {
             default: null,
             type: cc.Button
+        },
+        turnNotification: {
+            default: null,
+            type: cc.Label
         }
     },
+
+    // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
         this.p1Pos = [0, 0];
@@ -33,7 +43,7 @@ cc.Class({
     start () {
 
     },
-
+    
     moveUpLeft () {
         if((this.p1Pos[1] + 1) <= 4) {
             this.p1Pos[1] += 1;
@@ -65,6 +75,7 @@ cc.Class({
             this.player1Pos.node.y -= 31.2;      
         }
     },
+
 
     // update (dt) {},
 });
