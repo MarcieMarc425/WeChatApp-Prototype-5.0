@@ -3,7 +3,7 @@
 ## !! Important !!
    This section outlines all the necessary information in order to get the wechat mini game runnign smoothly.
 
-* Tools Needed:
+* __Tools Needed__:
     * Filezilla
     * PuTTY (Xshell 5)
     * npm
@@ -11,7 +11,7 @@
     * Cocos Creator
     * Visual Studio Code
 
-* Remote Server
+* __Remote Server__
     * IP Address: http://129.28.130.88 (poe.myphp.me)
     * Port Num: 22
     * Username: root
@@ -23,7 +23,7 @@
         * Username: root
         * Password: IIGG1234
 
-* Database
+* __Database__
     * IP Address: http://localhost (Count as localhost when starting from remote server)
     * Port Num: 27017
     
@@ -33,7 +33,7 @@
    `service mongod start`
    `ps -ef|grep mongo`
 
-* Server JS
+* __Server JS__
 
    The server.js acts as the remote server for the mini game.
 
@@ -42,7 +42,7 @@
    `cd server`
    `put C://fileLocation`
 
-* WeChat IDE
+* __WeChat IDE__
     * AppID: wxb5938a6e8e1cdfcf
     * Remote Res: https://tgideas.xyz
     * Res destination(for ref): ./data/web/minigame/
@@ -53,7 +53,7 @@
    
    Remember to delete "res" folder after building because remote server is used to store "res".
 
-* Cocos Creator
+* __Cocos Creator__
 
    Build a "build-templates" file to make a copy so that the build wipe won't be impactful.
 
@@ -62,18 +62,18 @@
    Remember to check debug mode, configure remote server, and don't check MD5 cache (when developing).
 
 ## File structures
-* cocos
+* __cocos__
 
    This is for native files in Cocos Creator.
 
-* resources
+* __resources__
 
    This is for all files in "res".
 
-* server
+* __server__
 
    This is the server file to be started in remote server.
 
-* wechat-build
+* __wechat-build__
 
    This is for "game.js", "project-dev", "socket-io" files in wechat -> "build".
