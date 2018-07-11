@@ -30,6 +30,13 @@ The database used is MongoDB. In order to start client, type in terminal:
 `service mongod start`
 `ps -ef|grep mongo`
 
+* Server JS
+The server.js acts as the remote server for the mini game.
+Remember to save server.js to the remote server everytime the file is edited. Command:
+`sftp root@ip:port`
+`cd server`
+`put C://fileLocation`
+
 * WeChat IDE
     * AppID: wxb5938a6e8e1cdfcf
     * Remote Res: https://tgideas.xyz
@@ -49,6 +56,9 @@ This is for native files in Cocos Creator.
 
 * resources
 This is for all files in "res".
+
+* server
+This is the server file to be started in remote server.
 
 * wechat-build
 This is for "game.js", "project-dev", "socket-io" files in wechat -> "build".
