@@ -35,76 +35,109 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
+    onLoad: function onLoad() {
+                
         var _this = this;
-        socket.emit('display-turn', 'loaded', playerTurn => {
-          _this.setTurn(playerTurn);
+        socket.emit("display-turn", "loaded", function (playerTurn) {
+            _this.setTurn(playerTurn);
         });
-        socket.on('display-turnPlus', res => {
-          _this.setTurn(res);
+        socket.on("display-turnPlus", function (res) {
+            _this.setTurn(res);
+        });
+        socket.on('display-otherPlayerPos', playerPos => {
+            console.log(playerPos);
+            _this.setP2Pos(playerPos);
         });
         this.p1Pos = [0, 0];
+        this.p2Pos = [4, 4];
         this.player1Pos.node.position = cc.p(0, -99.5);
+        this.player2Pos.node.position = cc.p(0, 150.9);
     },
-
-    start () {
-
-    },
-    
-    moveUpLeft () {
+    start: function start() {},
+    moveUpLeft: function moveUpLeft() {
         var _this = this;
-        socket.emit('end-turn', 'end');
-        if((this.p1Pos[1] + 1) <= 4) {
+        if (this.p1Pos[1] + 1 <= 4) {
+            socket.emit("end-turn", "moveUpLeft");
             this.p1Pos[1] += 1;
             this.player1Pos.node.x -= 69.5;
-            this.player1Pos.node.y += 31.2;      
+            this.player1Pos.node.y += 31.2;
         }
     },
-
-    moveUpRight () {
+    moveUpRight: function moveUpRight() {
         var _this = this;
-        socket.emit('end-turn', 'end');
-        if((this.p1Pos[0] + 1) <= 4) {
+        if (this.p1Pos[0] + 1 <= 4) {
+            socket.emit("end-turn", "moveUpRight");
             this.p1Pos[0] += 1;
             this.player1Pos.node.x += 69.5;
-            this.player1Pos.node.y += 31.2;      
+            this.player1Pos.node.y += 31.2;
         }
     },
-
-    moveDownLeft () {
+    moveDownLeft: function moveDownLeft() {
         var _this = this;
-        socket.emit('end-turn', 'end');
-        if((this.p1Pos[0] - 1) >= 0) {
+        if (this.p1Pos[0] - 1 >= 0) {
+            socket.emit("end-turn", "moveDownLeft");
             this.p1Pos[0] -= 1;
             this.player1Pos.node.x -= 69.5;
-            this.player1Pos.node.y -= 31.2;  
+            this.player1Pos.node.y -= 31.2;
         }
     },
-
-    moveDownRight () {
+    moveDownRight: function moveDownRight() {
         var _this = this;
-        socket.emit('end-turn', 'end');
-        if((this.p1Pos[1] - 1) >= 0) {
+        if (this.p1Pos[1] - 1 >= 0) {
+            socket.emit("end-turn", "moveDownRight");
             this.p1Pos[1] -= 1;
             this.player1Pos.node.x += 69.5;
-            this.player1Pos.node.y -= 31.2;      
+            this.player1Pos.node.y -= 31.2;
         }
     },
-
-    setTurn(playerTurn) {
-        if(playerTurn == '对方（红色）') {
-          this.up_left.interactable = false;
-          this.up_right.interactable = false;
-          this.down_left.interactable = false;
-          this.down_right.interactable = false;
-        } else {
-          this.up_left.interactable = true;
-          this.up_right.interactable = true;
-          this.down_left.interactable = true;
-          this.down_right.interactable = true;
+    setP2Pos: function setP2Pos(playerPos) {
+        // P2 moved in x direction
+        if((this.p2Pos[0] - playerPos[0]) != 0) {
+            // moved up along x axis
+            if((this.p2Pos - playerPos[0]) < 0) {
+                this.player2Pos.node.x += 69.5 * Math.abs((this.p2Pos[0] - playerPos[0]));
+                this.player2Pos.node.x += 31.2 * Math.abs((this.p2Pos[0] - playerPos[0]));
+            } 
+            // moved down along x axis
+            else {
+                this.player2Pos.node.x -= 69.5 * Math.abs((this.p2Pos[0] - playerPos[0]));
+                this.player2Pos.node.y -= 31.2 * Math.abs((this.p2Pos[0] - playerPos[0]));
+            }
+            this.p2Pos = playerPos;
         }
-        this.turnNotification.string = '回合:' + playerTurn;
-      }
+        // P2 moved in y direction
+        else {
+            // moved up along y axis
+            if((this.p2Pos - playerPos[1]) < 0) {
+                this.player2Pos.node.x -= 69.5 * Math.abs((this.p2Pos[1] - playerPos[1]));
+                this.player2Pos.node.y += 31.2 * Math.abs((this.p2Pos[1] - playerPos[1]));
+            } 
+            // moved down along y axis
+            else {
+                this.player2Pos.node.x += 69.5 * Math.abs((this.p2Pos[1] - playerPos[1]));
+                this.player2Pos.node.y -= 31.2 * Math.abs((this.p2Pos[1] - playerPos[1]));
+            }
+            this.p2Pos = playerPos;
+        }
+        // var newXPos = 0 + -69.5*(4-playerPos[0]);
+        // var newYPos = 150.9 + -31.2*(4-playerPos[1]);
+        // this.player2Pos.node.x = newXPos;
+        // this.player2Pos.node.y = newYPos;
+    },
+    setTurn: function setTurn(playerTurn) {
+        if ("对方（红色）" == playerTurn) {
+            this.up_left.interactable = false;
+            this.up_right.interactable = false;
+            this.down_left.interactable = false;
+            this.down_right.interactable = false;
+        } else {
+            this.up_left.interactable = true;
+            this.up_right.interactable = true;
+            this.down_left.interactable = true;
+            this.down_right.interactable = true;
+        }
+        this.turnNotification.string = "回合:" + playerTurn;
+    }
 
     // update (dt) {},
 });

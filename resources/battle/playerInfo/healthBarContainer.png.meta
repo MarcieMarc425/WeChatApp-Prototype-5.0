@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "cbfadea1-6384-4780-904a-0f4708b71a9d",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "healthBarContainer": {
+      "ver": "1.0.3",
+      "uuid": "97021903-236d-4ac6-b88f-8aebc2a79cf4",
+      "rawTextureUuid": "cbfadea1-6384-4780-904a-0f4708b71a9d",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 488,
+      "height": 60,
+      "rawWidth": 488,
+      "rawHeight": 60,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -12,6 +12,8 @@ var pairingQueue = [];
 var room = [];
 var p1 = '';
 var p2 = '';
+var p1Pos = [];
+var p2Pos = [];
 var playerTurn = '';
 
 // When a player connects
@@ -56,7 +58,12 @@ io.on('connect', socket => {
                         p2 = pairingQueue[i];
                 }
                 // Set player turn to p1 (default)
-                playerTurn = p1;   
+                playerTurn = p1;
+                
+                // Set players initial coordinates
+                p1Pos = [0, 0];
+                p2Pos = [4, 4];
+
                 for(var i = 0; i < pairingQueue.length; i++) {
                     io.to(pairingQueue[i]).emit('pairing-success', 'ready');
                     room.push(pairingQueue[i]);
@@ -69,6 +76,7 @@ io.on('connect', socket => {
         }
     });
 
+    // Display players' turn for client (On load only)
     socket.on('display-turn', (res, callback) => {
         var string = '';
         if(socket.id == playerTurn)
@@ -78,9 +86,29 @@ io.on('connect', socket => {
         callback(string);
     });
 
+    // Player has selected an action and end his turn
     socket.on('end-turn', res => {
+
+        // If the player ending turn == p1, no need to invert action on server coord
+        if(socket.id == p1)
+            movePlayerPos(p1, res);
+        else
+            movePlayerPos(p2, invertPlayerAction(res));
+
+        // Broadcast move action to the player NOT ending the turn, since client already registers own action
+        var otherPlayer = '';
+        // If p1 == other player, register p2's action on p1 client
+        // Since p2 server coord is already in sync with p1 client's view of p2's action, no need to invert
+        if(socket.id != p1) 
+            io.to(p1).emit('display-otherPlayerPos', p2Pos);
+        else
+            io.to(p2).emit('display-otherPlayerPos', invertPlayerPosView(p1Pos));
+
+        // Change the players' turn
         changeTurn();
         var string = '';
+
+        // Emit the changed turn effect to players in room
         for(var i = 0; i < room.length; i++) {
             if(room[i] == playerTurn) {
                 io.to(room[i]).emit('display-turnPlus', '你（蓝色）');
@@ -88,6 +116,8 @@ io.on('connect', socket => {
                 io.to(room[i]).emit('display-turnPlus', '对方（红色）');
             }
         }
+
+        
     });
 
     // When client disconnects
@@ -99,6 +129,52 @@ io.on('connect', socket => {
     });
 });
 
+// Function for inverting view of player coord
+function invertPlayerPosView(playerPos) {
+    var newPlayerPos = [4, 4];
+    newPlayerPos = [newPlayerPos[0] - playerPos[0], newPlayerPos[1] - playerPos[1]];
+    return newPlayerPos;
+}
+
+// Function for inverting players' actions on server coordinates
+function invertPlayerAction(action) {
+    if(action == 'moveUpRight')
+        return 'moveDownLeft';
+    else if(action == 'moveUpLeft')
+        return 'moveDownRight';
+    else if(action == 'moveDownLeft')
+        return 'moveUpRight';
+    else if(action == 'moveDownRight')
+        return 'moveUpLeft';
+}
+
+// Register move action on players' server coordinates
+function movePlayerPos(player, action) {
+    if(player == p1) {
+        // Change player coord according to action
+        if(action == 'moveUpRight')
+            p1Pos = [p1Pos[0]+1, p1Pos[1]];
+        else if(action == 'moveUpLeft')
+            p1Pos = [p1Pos[0], p1Pos[1]+1];
+        else if(action == 'moveDownLeft')
+            p1Pos = [p1Pos[0]-1, p1Pos[1]];
+        else if(action == 'moveDownRight')
+            p1Pos = [p1Pos[0], p1Pos[1]-1];
+    } else {
+        if(action == 'moveUpRight')
+            p2Pos = [p2Pos[0]+1, p2Pos[1]];
+        else if(action == 'moveUpLeft')
+            p2Pos = [p2Pos[0], p2Pos[1]+1];
+        else if(action == 'moveDownLeft')
+            p2Pos = [p2Pos[0]-1, p2Pos[1]];
+        else if(action == 'moveDownRight')
+            p2Pos = [p2Pos[0], p2Pos[1]-1];
+    }
+    console.log(p1Pos);
+    console.log(p2Pos);
+}
+
+// Function for changing players' turns
 function changeTurn() {
     if(playerTurn == p1)
         playerTurn = p2;
