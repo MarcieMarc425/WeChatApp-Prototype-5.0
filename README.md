@@ -74,6 +74,11 @@
 
    Remember to check debug mode, configure remote server, and don't check MD5 cache (when developing).
 
+* __Testing__
+
+    * WeChatID: derek_test_5
+    * Password: 8338841
+
 ## File structures
 * __cocos__
 
