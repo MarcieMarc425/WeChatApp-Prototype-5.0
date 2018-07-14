@@ -76,6 +76,11 @@ io.on('connect', socket => {
         }
     });
 
+    // When player tries to cancel out of the current connection if still waiting
+    socket.on('cancel_connect', res => {
+        
+    });
+
     // Display players' turn for client (On load only)
     socket.on('display-turn', (res, callback) => {
         var string = '';
