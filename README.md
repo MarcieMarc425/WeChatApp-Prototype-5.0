@@ -1,7 +1,7 @@
 # A Guide on *HOW* to use this repo
 
 ## !! Important !!
-   This section outlines all the necessary information in order to get the wechat mini game runnign smoothly.
+   This section outlines all the necessary information in order to get the wechat mini game running smoothly.
 
 * __Tools Needed__:
     * Filezilla
@@ -15,13 +15,13 @@
     * IP Address: http://129.28.130.88 (poe.myphp.me)
     * Port Num: 22
     * Username: root
-    * Password: IIGG1234
+    * Password: (Not disclosed)
     * Proxy (if needed)
         * Type: HTTP 1.1
         * Host: dev-proxy.oa.com
         * Port Num: 8080
         * Username: root
-        * Password: IIGG1234
+        * Password: (Not disclosed)
 
 * __Database__
     * IP Address: http://localhost (Count as localhost when starting from remote server)
@@ -56,7 +56,7 @@
    `put C://fileLocation`
 
 * __WeChat IDE__
-    * AppID: wxb5938a6e8e1cdfcf
+    * AppID: (Not disclosed)
     * Remote Res: https://tgideas.xyz
     * Res destination(for ref): ./data/web/minigame/
     
@@ -77,7 +77,7 @@
 * __Testing__
 
     * WeChatID: derek_test_5
-    * Password: 8338841
+    * Password: (Not disclosed)
 
 ## File structures
 * __cocos__
